@@ -2,7 +2,7 @@
 
 const DrawArea = ( < canvas className = "draw_area" > </canvas>);
 
-const scale = 25;
+let scale = 25;
 
 ReactDOM.render(DrawArea, document.querySelector('.container'));
 
@@ -24,8 +24,9 @@ let w = 0,
 h = 0;
 picture.forEach((row, indexY) => {
 row.split("").forEach((color, indexX) => {
-  w > indexX * scale ? w = w : w = indexX * scale;
-  h > indexY * scale ? h = h : h = indexY * scale;
+  w > indexX ? w = w : w = indexX;
+  h > indexY ? h = h : h = indexY;
+  scale = (document.documentElement.clientHeight - 100) / h;
   if (getColor(color)) {
     result.push({
       x: indexX,
@@ -35,9 +36,9 @@ row.split("").forEach((color, indexX) => {
   }
 })
 })
-canvas.width = w + scale;
+canvas.width = w * scale + scale;
 document.querySelector('.container').style.width = `${canvas.width}px`;
-canvas.height = h + scale;
+canvas.height = h * scale + scale;
 return result;
 }
 
